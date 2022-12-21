@@ -22,6 +22,12 @@ ostream& CRectangle::Output(ostream& out)const
     out << " Height: " << m_dHeight << " Width: " << m_dWidth << " Area: " << Area() << " Perimeter: " << Perimeter() << std::endl;
     return out;
 }
+/*ostream& CRectangle::Output(ostream& out)const
+{
+    out << " Height: " << m_dHeight << " Width: " << m_dWidth << " Area: " << Area() << " Perimeter: " << Perimeter() << std::endl;
+    return out;
+}
+*/
 istream& operator>>(istream& in, CRectangle& obj)
 {
     in >> obj.m_dWidth >> obj.m_dHeight;

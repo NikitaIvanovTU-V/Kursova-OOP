@@ -2,9 +2,13 @@
 #include <vector>
 #include <fstream>
 #include <random>
-#include <chrono>
 #include "CRectangle.h"
-const double PI = 3.14159265358979311600;
+#include "CSquare.h"
+#include "CCircle.h"
+#include "CTriangle.h"
+#include <numeric>
+#include <iterator>
+#include <time.h>
 using namespace std;
 enum CGraphicObjectType
 {
@@ -14,191 +18,25 @@ enum CGraphicObjectType
     Triangle
 
 };
-/*class CRectangle :public CGraphicObject
-{
-private:
-    double m_dWidth;
-    double m_dHeight;
-public:
-    CRectangle()
-    {
-        m_dWidth = 0;
-        m_dHeight = 0;
-    }
-
-    CRectangle(const double width, const double height)
-    {
-        m_dWidth = width;
-        m_dHeight = height;
-    }
-    double Area()const
-    {
-        return (m_dHeight * m_dWidth);
-    }
-    double Perimeter()const
-    {
-        return ((m_dHeight + m_dWidth) * 2);
-    }
-    ostream& Output(ostream& out)const
-    {
-        out << " Height: " << m_dHeight << " Width: " << m_dWidth << " Area: " << Area() << " Perimeter: " << Perimeter() << endl;
-        return out;
-    }
-    friend istream& operator>>(istream& in, CRectangle& obj)
-    {
-        in >> obj.m_dWidth >> obj.m_dHeight;
-        return in;
-    }
-    istream& Input(istream& in)
-    {
-        in >>m_dWidth >>m_dHeight;
-        return in;
-    }
-};
-*/
-class CSquare :public CGraphicObject
-{
-private:
-    double m_dWidth;
-public:
-    CSquare()
-    {
-        m_dWidth = 0;
-    }
-    CSquare(const double width)
-    {
-        m_dWidth = width;
-    }
-    double Area()const
-    {
-        return (m_dWidth * m_dWidth);
-    }
-    double Perimeter()const
-    {
-        return (m_dWidth*4);
-    }
-    ostream& Output(ostream& out)const
-    {
-        out << " Width: " << m_dWidth << " Area: " << Area() << " Perimeter: " << Perimeter() << endl;
-        return out;
-    }
-    friend istream& operator>>(istream& in, CSquare& obj)
-    {
-        in >> obj.m_dWidth;
-        return in;
-    }
-    friend ostream& operator<<(ostream& out, CSquare& obj)
-    {
-        out << obj.m_dWidth;
-    }
-    istream& Input(istream& in)
-    {
-        in >> m_dWidth;
-        return in;
-    }
-};
-class CCircle :public CGraphicObject
-{
-private:
-    double m_dRadius;
-public:
-    CCircle()
-    {
-        m_dRadius = 0;
-    }
-    CCircle(const double radius)
-    {
-        m_dRadius = radius;
-    }
-    double Area()const
-    {
-        return (PI * m_dRadius * m_dRadius);
-    }
-    double Perimeter()const
-    {
-        return (2* PI * m_dRadius);
-    }
-    ostream& Output(ostream& out)const
-    {
-        out << " Radius: " << m_dRadius << " Area: " << Area() << " Circumference: " << Perimeter() << endl;
-        return out;
-    }
-    friend istream& operator>>(istream& in, CCircle& obj)
-    {
-        in >> obj.m_dRadius;
-        return in;
-    }
-    istream& Input(istream& in)
-    {
-        in >> m_dRadius;
-        return in;
-    }
-};
-class CTriangle :public CGraphicObject
-{
-private:
-    double m_dSideA;
-    double m_dSideB;
-    double m_dSideC;
-public:
-    CTriangle()
-    {
-        m_dSideA = 0;
-        m_dSideB = 0;
-        m_dSideC = 0;
-    }
-    CTriangle(const double A, const double B, const double C)
-    {
-        m_dSideA = A;
-        m_dSideB = B;
-        m_dSideC = C;
-    }
-    double Area()const
-    {
-        double p = Perimeter() / 2;
-        return (sqrt(p*(p-m_dSideA) * (p - m_dSideB) * (p - m_dSideC)));
-    }
-    double Perimeter()const
-    {
-        return (m_dSideA + m_dSideB + m_dSideC);
-    }
-    ostream& Output(ostream& out)const
-    {
-        out << " A: " << m_dSideA << " B: " << m_dSideB << " C: " << m_dSideC << " Area: " << Area() << " Perimeter: " << Perimeter() << endl;
-        return out;
-    }
-    friend istream& operator>>(istream& in, CTriangle& obj)
-    {
-        in >> obj.m_dSideA >> obj.m_dSideB >> obj.m_dSideC;
-        return in;
-    }
-    istream& Input(istream& in)
-    {
-        in >> m_dSideA >> m_dSideB >> m_dSideC;
-        return in;
-    }
-};
-
 
 class CGraphicObjectsSet {
 private:
     vector<CGraphicObject*> m_vObjects;
-    double rand()
-    {
-
-        uniform_real_distribution<double> unif(0, 100);
-        default_random_engine re(chrono::system_clock::now().time_since_epoch().count());
-        return unif(re);
-
-    }
+    
 public:
     CGraphicObjectsSet()
     {
-
-        m_vObjects.emplace_back(new CRectangle(rand(), rand()));
-        m_vObjects.emplace_back(new CSquare(rand()));
-        m_vObjects.emplace_back(new CCircle(rand()));
-        m_vObjects.emplace_back(new CTriangle(rand(), rand(),rand()));
+    srand (time(NULL));
+        m_vObjects.emplace_back(new CRectangle(rand()%100+1, rand()%100+1));
+        m_vObjects.emplace_back(new CSquare(rand()%100+1));
+        m_vObjects.emplace_back(new CCircle(rand()%100+1));
+        CTriangle* temp=new CTriangle(rand() % 100+1, rand() % 100 + 1, rand() % 100 + 1);
+        while (!temp->IsATriangle())
+        {
+            temp = new CTriangle(rand() % 100 + 1, rand() % 100 + 1, rand() % 100 + 1);
+        }
+       
+        m_vObjects.emplace_back(temp);
 
     }
     CGraphicObjectsSet(const string& f)
@@ -233,7 +71,7 @@ public:
                 case Triangle:
                 {
                     m_vObjects.emplace_back(new CTriangle);
-                    m_vObjects.back()->Input(file);
+                    m_vObjects.back()->Input(file);                  
                     break;
                 }
                 default: break;
@@ -280,7 +118,7 @@ public:
             }
             default: break;
             }
-        }
+        }   
 
     }
     void WriteTo(ostream& out)
@@ -289,24 +127,19 @@ public:
         {
             m_vObjects[i]->Output(out);
         }
+      
     }
     double TotalArea()
     {
         double sum = 0;
-        for(int i=0;i<m_vObjects.size();i++)
-        {
-            sum+=m_vObjects[i]->Area();
-        }
+        sum=accumulate(m_vObjects.begin(),m_vObjects.end(),0.0,CGraphicObject::SumArea);
         return sum;
     }
     double TotalPerimeter()
     {
+
         double sum = 0;
-        for (int i = 0; i < m_vObjects.size(); i++)
-        {
-            sum += m_vObjects[i]->Perimeter();
-        }
-        
+        sum=accumulate(m_vObjects.begin(),m_vObjects.end(),0.0,CGraphicObject::SumPerimeter);
         return sum;
     }
 };
@@ -316,11 +149,13 @@ int main()
 {
 
     CGraphicObjectsSet set1("f.txt"),set2;
-    cout << set1.TotalPerimeter() << endl;
-    cout << set1.TotalArea()<<endl;
     set1.WriteTo(cout);
-    ifstream file("f.txt");
-    set2.ReadIn(file);
-    set2.WriteTo(cout);
+        ifstream f("f.txt");
+        set2.ReadIn(f);
+        f.close();
+        set2.WriteTo(cout);
+        cout<<" Total Area: "<<set2.TotalArea() << endl;
+        cout<< " Total Perimeter: " << set2.TotalPerimeter()<<endl;
     
+   
 }

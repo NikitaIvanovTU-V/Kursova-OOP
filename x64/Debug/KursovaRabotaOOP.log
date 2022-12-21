@@ -1,0 +1,7 @@
+﻿  CGraphicObject.cpp
+  CRectangle.cpp
+  CTriangle.cpp
+  Source.cpp
+C:\Users\user\Documents\Code\KursovaRabotaOOP\Source.cpp(29,16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  KursovaRabotaOOP.vcxproj -> C:\Users\user\Documents\Code\KursovaRabotaOOP\x64\Debug\KursovaRabotaOOP.cpp

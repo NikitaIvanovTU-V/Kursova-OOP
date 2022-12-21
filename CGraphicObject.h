@@ -8,7 +8,8 @@ using std::istream;
     public:
         virtual double Area()const=0;
         virtual double Perimeter()const=0;
-        virtual ostream& Output(ostream& out)=0;
+        virtual ostream& Output(ostream& out)const =0;
         virtual istream& Input(istream& in)=0;
-
+        static double SumArea(double num,CGraphicObject* ptr);
+       static double SumPerimeter(double num,CGraphicObject* ptr);
     };
